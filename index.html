@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>换乘客流统计管理软件</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="description" content="Admin Template">
+    <meta name="author" content="Zwolek">
+    <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/morris/morris.css">>
+    <link rel="stylesheet" type="text/css" href="assets/css/nanoscroller.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/datatables/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/vmap/jqvmap.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/daterangepicker/daterangepicker.css">
+
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        /* 弹窗背景 */
+        #modal {
+            width: 100%;
+            height: 100%;
+            /* 默认隐藏 */
+            /* display: none; */
+            /* 固定定位 */
+            position: fixed;
+            /* 设置在顶层 */
+            z-index: 1000;
+            /* 设置位置 */
+            left: 0;
+            top: 0;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* 弹窗内容 */
+        #modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: 10% auto;
+            border: 1px solid #888;
+            width: 1000px;
+            height: 580px;
+            z-index: 1001;
+        }
+
+        /* 关闭按钮 */
+        #close {
+            position: absolute;
+            right: 20px;
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* 设置关闭按钮的鼠标指针 */
+        #close:hover,
+        #close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div id="header-panel">
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+            <div id="navbar-header">
+                <a class="navbar-brand" href="index.html">
+                    <span class="logo-img">M</span>
+                    <span class="logo-text hidden-xs hidden-sm">换乘客流统计管理软件</span>
+                </a>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown user-menu">
+                        <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+                            <img style="width: 42px; height: 42px" src="https://tianyantui.oss-cn-shenzhen.aliyuncs.com/data/1688702051967.u=2479826346,1847948113&fm=253&fmt=auto&app=138&f=JPEG" alt=""
+                                 class="profile-img img-circle img-resposnive pull-left">
+                            <span class="hidden-xs">测试</span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>Profile</a></li>
+                            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>Dashboard</a></li>
+                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>My Inbox</a> <span
+                                        class="badge">3</span></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-lock" aria-hidden="true"></i>LockScreen</a></li>
+                            <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Log out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div id="navigation-panel" class="">
+    <nav class="sidebar nano">
+        <div class="clearfix"></div>
+        <div id="#sidebar-navbar" class="sidebar-nav nano-content navbar-collapse ">
+            <ul class="nav" id="side-menu" style="height: 100%;background-color: #f0f0f0;">
+                <li class="active navActive"><a href="index.html">
+                        <i class="fa fa-wpforms" aria-hidden="true"></i>
+                        <span class="link-hide"> 首页 </span></a></li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-pagelines" aria-hidden="true"></i>
+                                <span class="link-hide"> 乘客信息</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="passengerInformation.html">乘客信息</a></li>
+                                    <li><a href="stationInformation.html">车站信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                                <span class="link-hide"> 列车信息</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="trainInformation.html">列车信息</a></li>
+                                    <li><a href="trainCar.html">车厢信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                <span class="link-hide"> 流量统计</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="trafficStatistics.html">流量统计</a></li>
+                                    <li><a href="alarmInformation.html">报警信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-cc" aria-hidden="true"></i>
+                                <span class="link-hide"> 权限管理</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="permissionManagement.html">权限管理</a></li>
+                                    <li><a href="dataStatistics.html">数据统计</a></li>
+                            </ul>
+                        </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div id="content-panel">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 dashboard-header">
+                <h1 class="dash-title">首页</h1>
+            </div>
+        </div>
+        <!--固定图表-->
+        <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 stat-item" >
+                <div class="panel">
+                    <div class="panel-body" style="background-color:rgba(104, 168, 105)">
+                        <div class="col-xs-9 left-content no-padding pull-left">
+                            <h2>今日访问量</h2>
+                            <div class="statistics" data-from="1815" data-to="1815" data-speed="2500"
+                                 data-refresh-interval="50"></div>
+                        </div>
+                        <div class="col-xs-3 right-content no-padding pull-right">
+                            <span><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer" style="background-color:rgba(104, 168, 105,.3)">
+                        <div class="date">
+                            <h5><i class="fa fa-clock-o entypo-clipboard" aria-hidden="true"></i> </h5>
+                        </div>
+                        <div class="label label-success percent pull-right"><i class="fa fa-caret-up"
+                                                                               aria-hidden="true"></i> 9.2%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 stat-item" >
+                <div class="panel">
+                    <div class="panel-body" style="background-color:rgba(11, 191, 210)">
+                        <div class="col-xs-9 left-content no-padding pull-left">
+                            <h2>设备连接数</h2>
+                            <div class="statistics" data-from="4299" data-to="4299" data-speed="2500"
+                                 data-refresh-interval="50"></div>
+                        </div>
+                        <div class="col-xs-3 right-content no-padding pull-right">
+                            <span><i class="fa fa-trademark" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer" style="background-color:rgba(11, 191, 210,.3)">
+                        <div class="date">
+                            <h5><i class="fa fa-clock-o fontawesome-leaf" aria-hidden="true"></i> </h5>
+                        </div>
+                        <div class="label label-success percent pull-right"><i class="fa fa-caret-up"
+                                                                               aria-hidden="true"></i> 6.4%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 stat-item" >
+                <div class="panel">
+                    <div class="panel-body" style="background-color:rgba(92, 151, 178)">
+                        <div class="col-xs-9 left-content no-padding pull-left">
+                            <h2>总访问时间</h2>
+                            <div class="statistics" data-from="9715" data-to="9715" data-speed="2500"
+                                 data-refresh-interval="50"></div>
+                        </div>
+                        <div class="col-xs-3 right-content no-padding pull-right">
+                            <span><i class="fa fa-angle-double-up" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer" style="background-color:rgba(92, 151, 178,.3)">
+                        <div class="date">
+                            <h5><i class="fa fa-clock-o icon icon-mobile-landscape" aria-hidden="true"></i> </h5>
+                        </div>
+                        <div class="label label-success percent pull-right"><i class="fa fa-caret-up"
+                                                                               aria-hidden="true"></i> 7.5%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 stat-item" >
+                <div class="panel">
+                    <div class="panel-body" style="background-color:rgba(118, 191, 86)">
+                        <div class="col-xs-9 left-content no-padding pull-left">
+                            <h2>出错次数</h2>
+                            <div class="statistics" data-from="8190" data-to="8190" data-speed="2500"
+                                 data-refresh-interval="50"></div>
+                        </div>
+                        <div class="col-xs-3 right-content no-padding pull-right">
+                            <span><i class="fa fa-cc-diners-club" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer" style="background-color:rgba(118, 191, 86,.3)">
+                        <div class="date">
+                            <h5><i class="fa fa-clock-o fontawesome-tint" aria-hidden="true"></i> </h5>
+                        </div>
+                        <div class="label label-success percent pull-right"><i class="fa fa-caret-up"
+                                                                               aria-hidden="true"></i> 1.8%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--随机图表-->
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 sale-bar" style="width:100%">
+                <div class="panel">
+                    <div class="panel-body dashboard-panel m-t-10">
+                        <div class="canvas-holder">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<script src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/menu/metisMenu.min.js"></script>
+<script type="text/javascript" src="assets/js/menu/nanoscroller.js"></script>
+<script type="text/javascript" src="assets/js/moment.js"></script>
+<script type="text/javascript" src="assets/js/daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="assets/js/countTo/jquery.countTo.js"></script>
+<script type="text/javascript" src="assets/js/morris-js/raphael.min.js"></script>
+<script type="text/javascript" src="assets/js/morris-js/morris.min.js"></script>
+<script type="text/javascript" src="assets/js/chart-js/Chart.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/excanvas.min.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/jquery.flot.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/jquery.flot.resize.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/jquery.flot.time.js"></script>
+<script type="text/javascript" src="assets/js/datatables/datatables.min.js"></script>
+<script type="text/javascript" src="assets/js/vmap/jquery.vmap.js"></script>
+<script type="text/javascript" src="assets/js/vmap/maps/jquery.vmap.usa.js"></script>
+<script type="text/javascript" src="assets/js/jQuery.style.switcher.min.js"></script>
+<script type="text/javascript" src="assets/js/nav.js"></script>
+<script type="text/javascript" src="assets/js/dashboard.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        "use strict";
+        $('#theme-settings').styleSwitcher();
+    });
+</script>
+<script type="text/javascript" src="assets/js/jquery-functions.js"></script>
+<script>
+    // 可选颜色、theme-blue、theme-green、theme-orange、theme-purple、theme-red、theme-yellow、theme-cyan、theme-pink
+    // 主题色保存
+    const themeColor = "theme-pink";
+
+    function dynamicLoadCss(url) {
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        link.type = 'text/css';
+        link.rel = 'stylesheet';
+        link.href = url;
+        head.appendChild(link);
+    }
+    dynamicLoadCss('assets/css/' + themeColor + '.css');
+    localStorage.setItem("theme", themeColor);
+</script>
+
+
+<script>
+    $(document).ready(function(){
+// ------------------- 1.图表一 -------------------
+        var canvas = document.getElementById('barChart');
+        if(null!=canvas) {
+            var data = {
+                labels: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+                datasets:
+                    [
+                        {
+                            label: "Sale",
+                            backgroundColor: 'rgba(41, 202, 207)',
+                            borderColor: 'rgba(41, 202, 207)',
+                            borderWidth: 1,
+                            data: [44, 86, 34, 92, 37, 0, 0, 0, 0, 0, 0, 0],
+                        }
+                        , 
+                        {
+                            label: "User",
+                            backgroundColor: 'rgba(83, 97, 10)',
+                            borderColor: 'rgba(83, 97, 10)',
+                            borderWidth: 1,
+                            data: [49, 73, 31, 65, 33, 0, 0, 0, 0, 0, 0, 0],
+                        }
+                        
+                    ]
+            };//bar data
+
+            var option = {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: false,
+                }
+            };
+            var myBarChart = Chart.Bar(canvas, {
+                data: data,
+                options: option
+            });
+        }
+// ------------------- 5.图表二 -------------------
+        Morris.Line({
+            element: 'line-chart',
+            data: [
+                    {
+                        period: '2024-05',
+                        up: 95,
+                        down: 166
+                    }
+                ,
+                    {
+                        period: '2024-04',
+                        up: 192,
+                        down: 57
+                    }
+                ,
+                    {
+                        period: '2024-03',
+                        up: 4,
+                        down: 72
+                    }
+                ,
+                    {
+                        period: '2024-02',
+                        up: 146,
+                        down: 73
+                    }
+                ,
+                    {
+                        period: '2024-01',
+                        up: 75,
+                        down: 48
+                    }
+                ,
+                    {
+                        period: '2023-12',
+                        up: 108,
+                        down: 85
+                    }
+                ,
+                    {
+                        period: '2023-11',
+                        up: 66,
+                        down: 195
+                    }
+                ,
+                    {
+                        period: '2023-10',
+                        up: 42,
+                        down: 158
+                    }
+                ,
+                    {
+                        period: '2023-09',
+                        up: 88,
+                        down: 82
+                    }
+                
+            ],
+            xkey: 'period',
+            ykeys: ['up', 'down'],
+            labels: ['up', 'down'],
+            pointSize: 10,
+            pointFillColors: [ '#e8fad8', '#e8fad8'],
+            pointStrokeColors:[ '#38441d', '#e8fad8'],
+            hideHover: 'auto',
+            lineColors:[ '#b61b03', '#e8fad8'],
+            lineWidth:2,
+            resize: true
+        });
+// ------------------- 6. 图表三 -------------------
+        var canvas = document.getElementById('doughnutChart');
+        var data = {
+            labels: [
+                "今日访问量","出错次数"
+            ],
+            datasets: [
+                {
+                    data: [84,100-84],
+                    borderWidth:0,
+                    backgroundColor: [
+                        "#7da5fb", //label1
+                        "#5a7472"  //label2
+                    ],
+                    hoverBackgroundColor: [
+                        "#7da5fb",  //label2
+                        "#5a7472" //label1
+                    ]
+                }
+                ]
+        };//doughunut data
+
+        var option = {
+            maintainAspectRatio: false,
+            responsive: true
+        };
+
+        var myDoughnutChart = Chart.Doughnut(canvas,{
+            data:data,
+            options:option
+        });
+
+// ------------------- 7. 图表四 -------------------
+        var canvas = document.getElementById('polarAreaChart');
+        var data = {
+            datasets: [{
+                data: [
+                    20,76,100-(20+76)
+                ],
+                borderColor: "rgba(0,0,0,0)",
+                backgroundColor: [
+                    "rgba(116, 232, 4)",
+                    "rgba(97, 41, 135)",
+                    "rgba(147, 146, 211)",
+                ],
+                label: 'My dataset' // for legend
+            }],
+            labels: [
+                "总访问时间","出错次数","出错次数"
+            ]
+
+        };
+
+        var option = {
+            maintainAspectRatio: false,
+            responsive:true,
+            scale: {
+                ticks: {
+                    beginAtZero: true,
+                    backdropColor:'rgba(0,0,0,0)',
+                    fontColor:'rgba(0,0,0,0)'
+                }
+            }
+        };
+
+        var myPolarAreaChart = Chart.PolarArea (canvas,{
+            data:data,
+            options:option,
+        });
+
+    });//end
+</script>
+</body>
+
+</html>

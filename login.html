@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>换乘客流统计管理软件</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="description" content="HTML5 Template">
+    <meta name="author" content="Zwolek">
+    <title>Master</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/theme-purple.css">
+    <link rel="stylesheet" href="assets/css/nanoscroller.css">
+    <style>
+        .image-bg {
+            background: url("https://tianyantui.oss-cn-shenzhen.aliyuncs.com/data/1688702051967.u=2479826346,1847948113&fm=253&fmt=auto&app=138&f=JPEG") center center;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="login" class="image-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 content">
+                    <div class="panel login-form">
+                        <div class="panel-heading">
+                            <h2>登录</h2>
+                        </div> <!-- /panel-heading -->
+                        <div class="panel-body m-t-0">
+
+                            <form data-toggle="validator">
+
+                                <div class="form-group">
+                                    <label for="inputEmail" class="control-label">账号</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon bg-purple" id="basic-addon1"><i
+                                                class="fa fa-envelope" aria-hidden="true"></i></span>
+                                        <input type="text" class="form-control" id="inputUsernameEmail" placeholder="请输入账号"
+                                            data-error="账号格式错误" required>
+                                    </div> <!-- /input-group -->
+                                    <div class="help-block with-errors"></div>
+                                </div> <!-- /form-group -->
+
+                                <div class="form-group">
+
+                                    <label for="inputPassword" class="control-label">密码</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon bg-purple" id="basic-addon2"><i class="fa fa-key"
+                                                aria-hidden="true"></i>
+                                        </span>
+                                        <input type="password" data-minlength="6" class="form-control"
+                                            id="inputPassword" placeholder="请输入密码" required>
+                                    </div> <!-- /input-group -->
+
+                                </div> <!-- /form-group -->
+
+                                <div class="form-group">
+                                    <div class="checkbox checkbox-purple">
+                                        <input id="checkbox" type="checkbox" />
+                                        <label for="checkbox"><span>记住密码</span></label>
+                                    </div> <!-- /checkbox -->
+                                </div> <!-- /form-group -->
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-md bg-purple login"><span>登录</span></button>
+                                </div> <!-- /form-group -->
+
+                            </form> <!-- /form -->
+
+                        </div> <!-- /panel-body -->
+                    </div> <!-- /panel-->
+                </div> <!-- /col -->
+            </div> <!-- /row -->
+        </div> <!-- /container -->
+    </div> <!-- /login -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/validator/validator.js"></script>
+</body>
+<script>
+    const login = document.querySelector('.login');
+    login.addEventListener('click', (e) => {
+        e.preventDefault();
+        location.href = 'index.html';
+    })
+</script>
+
+</html>

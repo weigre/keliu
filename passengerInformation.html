@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>换乘客流统计管理软件</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="description" content="Admin Template">
+    <meta name="author" content="Zwolek">
+    <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/morris/morris.css">
+    >
+    <link rel="stylesheet" type="text/css" href="assets/css/nanoscroller.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/datatables/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/vmap/jqvmap.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/daterangepicker/daterangepicker.css">
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        /* 弹窗背景 */
+        #modal {
+            width: 100%;
+            height: 100%;
+            /* 默认隐藏 */
+            /* display: none; */
+            /* 固定定位 */
+            position: fixed;
+            /* 设置在顶层 */
+            z-index: 1000;
+            /* 设置位置 */
+            left: 0;
+            top: 0;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* 弹窗内容 */
+        #modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: 10% auto;
+            border: 1px solid #888;
+            width: 1000px;
+            height: 580px;
+            z-index: 1001;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 60%;
+            top: 30%;
+            width: 200px;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border: 1px solid #d3d3d3;
+            border-radius: 4px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+            font-size: 25px;
+            text-align: center;
+        }
+        /* 关闭按钮 */
+        #close {
+            position: absolute;
+            right: 20px;
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* 设置关闭按钮的鼠标指针 */
+        #close:hover,
+        #close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div id="header-panel">
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+            <div id="navbar-header">
+                <a class="navbar-brand" href="index.html">
+                    <span class="logo-img">M</span>
+                    <span class="logo-text hidden-xs hidden-sm">换乘客流统计管理软件</span>
+                </a>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img style="width: 42px; height: 42px" src="https://tianyantui.oss-cn-shenzhen.aliyuncs.com/data/1688702051967.u=2479826346,1847948113&fm=253&fmt=auto&app=138&f=JPEG" alt=""
+                                 class="profile-img img-circle img-resposnive pull-left">
+                            <span class="hidden-xs">测试</span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>Profile</a></li>
+                            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>Dashboard</a></li>
+                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>My Inbox</a> <span
+                                        class="badge">3</span></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-lock" aria-hidden="true"></i>LockScreen</a></li>
+                            <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Log out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div id="navigation-panel" class="">
+    <nav class="sidebar nano">
+        <div class="clearfix"></div>
+        <div id="#sidebar-navbar" class="sidebar-nav nano-content navbar-collapse ">
+            <ul class="nav" id="side-menu" style="height: 100%;background-color: #f0f0f0;">
+                <li class="active navActive"><a href="index.html">
+                        <i class="fa fa-wpforms" aria-hidden="true"></i>
+                        <span class="link-hide"> 首页 </span></a></li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-pagelines" aria-hidden="true"></i>
+                                <span class="link-hide"> 乘客信息</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="passengerInformation.html">乘客信息</a></li>
+                                    <li><a href="stationInformation.html">车站信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                                <span class="link-hide"> 列车信息</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="trainInformation.html">列车信息</a></li>
+                                    <li><a href="trainCar.html">车厢信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                <span class="link-hide"> 流量统计</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="trafficStatistics.html">流量统计</a></li>
+                                    <li><a href="alarmInformation.html">报警信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-cc" aria-hidden="true"></i>
+                                <span class="link-hide"> 权限管理</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="permissionManagement.html">权限管理</a></li>
+                                    <li><a href="dataStatistics.html">数据统计</a></li>
+                            </ul>
+                        </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div id="content-panel">
+    <div class="container-fluid">
+        <div id="theme-settings" class="hidden-xs hidden-sm">
+            <div class="header">
+                <h3>Select Theme Color</h3>
+            </div>
+            <div class="content">
+                <div class="theme-color">
+                    <a href="javascript: void(0)" class="bg m-r-10" data-theme="theme-blue" data-toggle="tooltip"
+                       data-placement="top" title="Blue">
+                        <span class="item bg-blue"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg m-r-10" data-toggle="tooltip" data-theme="theme-green"
+                       data-placement="top" title="Green">
+                        <span class="item bg-green"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg m-r-10" data-theme="theme-orange" data-toggle="tooltip"
+                       data-placement="top" title="Orange">
+                        <span class="item bg-orange"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg" data-theme="theme-purple" data-toggle="tooltip"
+                       data-placement="top" title="Purple">
+                        <span class="item bg-purple"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg m-r-10" data-theme="theme-red" data-toggle="tooltip"
+                       data-placement="top" title="Red">
+                        <span class="item bg-red"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg m-r-10" data-theme="theme-yellow" data-toggle="tooltip"
+                       data-placement="top" title="Yellow">
+                        <span class="item bg-yellow"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg m-r-10" data-theme="theme-cyan" data-toggle="tooltip"
+                       data-placement="top" title="Cyan">
+                        <span class="item bg-cyan"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg" data-theme="theme-pink" data-toggle="tooltip"
+                       data-placement="top" title="Pink">
+                        <span class="item bg-pink"></span>
+                    </a>
+                </div>
+                <div class="buttons m-t-10">
+                    <a href="javascript: void(0)" data-theme="theme-purple"
+                       class="btn-block btn btn-reset btn-sm bg-red"><span>reset</span></a>
+                </div>
+            </div>
+        </div>
+        <!-- 列表 -->
+        <div class="row">
+            <div class="col-xs-12 dashboard-header">
+                <div class="panel">
+                    <div class="panel-heading input-widget search-class-center" style="display: flex; justify-content: flex-start; align-items: center;">
+                        <h3 style="margin-right: 20px;">乘客信息</h3>
+                                <input style="width: 200px;" type="text" placeholder="乘客编号搜索..." class="form-control passengerIdSearch">
+                                <input style="width: 200px;" type="text" placeholder="姓名搜索..." class="form-control nameSearch">
+                        <button type="success"
+                                class="btn btn-md bg-purple submitMsg listSearchBtn"><span>搜索</span></button>
+                    </div>
+                    <div class="panel-body m-t-0">
+                        <div class="table-responsive">
+                            <table id="basic-table" class="table table-striped table-bordered"
+                                   style="table-layout: fixed;width: 100%;">
+                                <thead>
+                                <tr class="trTitle">
+                                </tr>
+                                </thead>
+
+                                    <tbody class="NowTbody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="notif" style="display:none" class="body-nest">
+            <button class="delBtn" style="display: none;" onclick="$.pnotify({
+                title: '删除成功',
+                text: '',
+                type: 'success'
+             });" class="btn source">删除成功</button>
+        </div>
+        <div id="notif" style="display:none" class="body-nest">
+            <button class="addBtn" style="display: none;" onclick="$.pnotify({
+                title: '添加成功',
+                text: '',
+                type: 'success'
+
+             });" class="btn source">成功添加</button>
+        </div>
+        <div id="popup" class="popup">
+            <p>删除成功</p>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/menu/metisMenu.min.js"></script>
+<script type="text/javascript" src="assets/js/menu/nanoscroller.js"></script>
+<script type="text/javascript" src="assets/js/moment.js"></script>
+<script type="text/javascript" src="assets/js/daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="assets/js/countTo/jquery.countTo.js"></script>
+<script type="text/javascript" src="assets/js/morris-js/raphael.min.js"></script>
+<script type="text/javascript" src="assets/js/morris-js/morris.min.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/excanvas.min.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/jquery.flot.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/jquery.flot.resize.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/jquery.flot.time.js"></script>
+<script type="text/javascript" src="assets/js/datatables/datatables.min.js"></script>
+<script type="text/javascript" src="assets/js/vmap/jquery.vmap.js"></script>
+<script type="text/javascript" src="assets/js/vmap/maps/jquery.vmap.usa.js"></script>
+<script type="text/javascript" src="assets/js/jQuery.style.switcher.min.js"></script>
+<script type="text/javascript" src="assets/js/nav.js"></script>
+<script src="http://mockjs.com/dist/mock.js"></script>
+<script type="text/javascript" src="assets/js/dashboard.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        "use strict";
+        $('#theme-settings').styleSwitcher();
+    });
+</script>
+<script type="text/javascript" src="assets/js/jquery-functions.js"></script>
+<script>
+    // 主题色
+    let themeColor = "theme-red";
+    function dynamicLoadCss(url) {
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        link.type = 'text/css';
+        link.rel = 'stylesheet';
+        link.href = url;
+        head.appendChild(link);
+    }
+    dynamicLoadCss('assets/css/' + themeColor + '.css');
+    const delBtn = document.querySelector('.delBtn')
+    const addBtn = document.querySelector('.addBtn')
+    var arr = JSON.parse(localStorage.getItem('passengerInformation')) || [];
+    // 修改，删除，查看
+    const operate = () => {
+        var addList = document.querySelectorAll('.addList');
+        var deleteList = document.querySelectorAll('.deleteList');
+        var goInfo = document.querySelectorAll('.goInfo');
+        // 编辑
+        addList.forEach(function (item, index) {
+            item.onclick = function () {
+                localStorage.setItem('passengerInformationItemInfo', JSON.stringify(arr[index]))
+                location.href = 'addpassengerInformation.html'
+            }
+        })
+        // 删除
+        deleteList.forEach(function (item, index) {
+            item.onclick = function () {
+                arr.splice(index, 1);
+                localStorage.setItem('passengerInformation', JSON.stringify(arr));
+                var popup = document.getElementById('popup');
+                popup.style.display = 'none';
+                setTimeout(function() {
+                    popup.style.display = 'block';
+                }, 500);
+                setInterval(function () {
+                    location.reload();
+                }, 5000)
+            }
+        })
+        // 跳转详情页
+        goInfo.forEach(function (item, index) {
+            item.onclick = function () {
+                localStorage.setItem('passengerInformationDetail', JSON.stringify(arr[index]));
+                location.href = 'passengerInformationDetail.html'
+            }
+        })
+    }
+    try{
+        Mock.mock("getpassengerInformationList", {'list|1-10': [{
+                "id|+1": 1,
+							'乘客编号': '@string("upper", 8)',
+							'姓名': '@cname()',
+                    '性别|1': [
+                        '男',
+                        '女',
+                    ],
+							'年龄': '@integer(18, 100)',
+                    '身份证号': /^[1-9]{7}(?:0|10|11|12)(?:0[1-9]|[1-2]|30|31){3}$/,
+                    '手机号': /^1[3-9]{9}$/,
+                    '联系方式': /^1[3-9]{9}$/,
+							'乘车日期': '@date("yyyy-MM-dd")',
+							'乘车路线': '@cword(5)',
+							'乘车时间': '@date("yyyy-MM-dd hh:mm:ss")',
+							'乘车状态': '@cword(5)',
+							'乘客人数': '@cword(5)',
+            }
+            ]});
+    }catch (e) {
+    }
+    const tbody = document.querySelector('.NowTbody')
+    // 列表渲染
+    const getList = () => {
+        tbody.innerHTML = ''
+        arr.forEach(function (item, index) {
+            // 循环对象，拿到属性值的数组
+            const tBody = Object.values(item);
+            tbody.innerHTML += `
+          <tr>
+             ${tBody.map((tBodyitem, index) => {
+                    if (typeof tBodyitem === 'number') {
+                        return `<th style="text-align:center;vertical-align:middle"> ${tBodyitem}</th>`
+        }
+        if (tBodyitem.slice(0, 4) === 'http') {
+            return `<td><img src="${tBodyitem}" alt="" style="width:100px;height:100px;"></td>`
+        }
+        return `<th style="text-align:center;vertical-align:middle"> ${tBodyitem}</th>`
+    }).join('')}
+        <td style="text-align:center;vertical-align:middle">
+        <button class="btn btn-md bg-cyan m-r-10 addList"  style="min-width:25px;margin:0"><span>编辑</span></button>
+        <button class="btn  btn-md bg-red m-r-10 deleteList" style="min-width:25px;margin:0"><span>删除</span></button>
+        <button class="btn  btn-md bg-green m-r-10 goInfo"style="min-width:25px;margin:0"><span>详情</span></button>
+        </td>
+    </tr>`
+            })
+        }
+    if(arr.length>0) {
+        const trTitle = document.querySelector('.trTitle');
+        const titleArr = Object.keys(arr[0])
+        let tableHTML = '';
+        titleArr.forEach(titleItem => {
+            tableHTML += '<th style="text-align:center;vertical-align:middle;">' + titleItem + '</th>';
+        });
+        tableHTML += '<th style="text-align:center;vertical-align:middle;width: 15%" data-hide="phone">操作</th>';
+        trTitle.innerHTML = tableHTML;
+        getList();
+    }
+    if(arr.length == 0){
+        try{
+            getAjaxinfo();
+        }catch(e){
+            arr = []
+        }
+    }
+    function getAjaxinfo(){
+        $.ajax({
+            url: "getpassengerInformationList", //请求的url地址
+            dataType: "json", //返回格式为json
+            data: {}, //参数值
+            type: "get", //请求方式
+            success: function (req) {
+                localStorage.setItem('passengerInformation',JSON.stringify(req.list));
+                arr = req.list;
+                const trTitle = document.querySelector('.trTitle');
+                const titleArr = Object.keys(arr[0])
+                let tableHTML = '';
+                titleArr.forEach(titleItem => {
+                    tableHTML += '<th style="text-align:center;vertical-align:middle;">' + titleItem + '</th>';
+                });
+                tableHTML += '<th style="text-align:center;vertical-align:middle;width: 15%" data-hide="phone">操作</th>';
+                trTitle.innerHTML = tableHTML;
+                getList();
+                operate();
+            },
+        });
+    };
+        // 搜索功能
+        const searchBtn = document.querySelector('.listSearchBtn');
+
+        // 点击搜索
+        searchBtn.addEventListener('click', function () {
+            arr = JSON.parse(localStorage.getItem('passengerInformation'));
+            const passengerIdSearchValue = document.querySelector('.passengerIdSearch').value
+            if (document.querySelector('.passengerIdSearch').value != '' ) {
+                const newArr = arr.filter(item => item.乘客编号.includes(passengerIdSearchValue))
+                arr = newArr;
+            }
+            const nameSearchValue = document.querySelector('.nameSearch').value
+            if (document.querySelector('.nameSearch').value != '' ) {
+                const newArr = arr.filter(item => item.姓名.includes(nameSearchValue))
+                arr = newArr;
+            }
+            getList()
+            // 列表操作
+            operate();
+        })
+        operate();
+    </script>
+</body>
+
+</html>

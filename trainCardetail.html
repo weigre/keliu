@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="description" content="Admin Template">
+    <meta name="author" content="Zwolek">
+    <title>换乘客流统计管理软件</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/morris/morris.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/nanoscroller.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/datatables/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/vmap/jqvmap.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/daterangepicker/daterangepicker.css">
+    <style>
+        .infoTd {
+            border: 1px solid #9999991e;
+            width: 200px;
+            color: #000;
+            font-size: 15px;
+            font-weight: 600;
+            background-color: #f5f7fa
+        }
+
+        .listInfoTd2 {
+            border: 1px solid #9999991e;
+        }
+
+        .tableTitle {
+            margin: 20px 0px;
+            font-size: 20px;
+            font-weight: 600;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+<div id="header-panel">
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+            <div id="navbar-header">
+                <a class="navbar-brand" href="formList.html">
+                    <span class="logo-img">M</span>
+                    <span class="logo-text hidden-xs hidden-sm">换乘客流统计管理软件</span>
+                </a>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img style="width: 42px; height: 42px" src="https://tianyantui.oss-cn-shenzhen.aliyuncs.com/data/1688702051967.u=2479826346,1847948113&fm=253&fmt=auto&app=138&f=JPEG" alt="" class="profile-img img-circle img-resposnive pull-left">
+                            <span class="hidden-xs">测试</span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>Profile</a></li>
+                            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>Dashboard</a></li>
+                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>My Inbox</a> <span
+                                        class="badge">3</span></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-lock" aria-hidden="true"></i>LockScreen</a></li>
+                            <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Log out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div id="navigation-panel" class="">
+    <nav class="sidebar nano">
+        <div class="clearfix"></div>
+        <div id="#sidebar-navbar" class="sidebar-nav nano-content navbar-collapse ">
+            <ul class="nav" id="side-menu" style="height: 100%;background-color: #f0f0f0;">
+                <li class="navActive"><a href="index.html"><i class="fa fa-wpforms" aria-hidden="true"></i> <span
+                                class="link-hide"> 首页 </span></a></li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-pagelines" aria-hidden="true"></i>
+                                <span class="link-hide"> 乘客信息</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="passengerInformation.html">乘客信息</a></li>
+                                    <li><a href="stationInformation.html">车站信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                                <span class="link-hide"> 列车信息</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="trainInformation.html">列车信息</a></li>
+                                    <li><a href="trainCar.html">车厢信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                <span class="link-hide"> 流量统计</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="trafficStatistics.html">流量统计</a></li>
+                                    <li><a href="alarmInformation.html">报警信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-cc" aria-hidden="true"></i>
+                                <span class="link-hide"> 权限管理</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="permissionManagement.html">权限管理</a></li>
+                                    <li><a href="dataStatistics.html">数据统计</a></li>
+                            </ul>
+                        </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div id="content-panel">
+    <div class="container-fluid">
+        <div id="button-settings" class="hidden-xs hidden-sm">
+            <i class="fa fa-cog fa-spin"></i>
+        </div>
+        <div id="theme-settings" class="hidden-xs hidden-sm">
+            <div class="header">
+                <h3>Select Theme Color</h3>
+            </div>
+            <div class="content">
+                <div class="theme-color">
+                    <a href="javascript: void(0)" class="bg m-r-10" data-theme="theme-blue" data-toggle="tooltip"
+                       data-placement="top" title="Blue">
+                        <span class="item bg-blue"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg m-r-10" data-toggle="tooltip" data-theme="theme-green"
+                       data-placement="top" title="Green">
+                        <span class="item bg-green"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg m-r-10" data-theme="theme-orange" data-toggle="tooltip"
+                       data-placement="top" title="Orange">
+                        <span class="item bg-orange"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg" data-theme="theme-purple" data-toggle="tooltip"
+                       data-placement="top" title="Purple">
+                        <span class="item bg-purple"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg m-r-10" data-theme="theme-red" data-toggle="tooltip"
+                       data-placement="top" title="Red">
+                        <span class="item bg-red"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg m-r-10" data-theme="theme-yellow" data-toggle="tooltip"
+                       data-placement="top" title="Yellow">
+                        <span class="item bg-yellow"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg m-r-10" data-theme="theme-cyan" data-toggle="tooltip"
+                       data-placement="top" title="Cyan">
+                        <span class="item bg-cyan"></span>
+                    </a>
+                    <a href="javascript: void(0)" class="bg" data-theme="theme-pink" data-toggle="tooltip"
+                       data-placement="top" title="Pink">
+                        <span class="item bg-pink"></span>
+                    </a>
+                </div>
+                <div class="buttons m-t-10">
+                    <a href="javascript: void(0)" data-theme="theme-purple"
+                       class="btn-block btn btn-reset btn-sm bg-red"><span>reset</span></a>
+                </div>
+            </div>
+        </div>
+        <!-- 列表 -->
+        <div class="row">
+            <div class="col-xs-12 dashboard-header">
+                <div class="panel">
+                    <div class="panel-body m-t-0">
+                        <div class="table-responsive">
+                            <table id="basic-table" class="table table-striped table-bordered"
+                                   style="table-layout: fixed">
+                                    <div class="infoLayout"
+                                     style="display: flex; position: relative; flex-wrap: wrap;box-sizing: border-box; ">
+                                    <div class="tableTitle">
+                                        基础信息
+                                    </div>
+                                    <table class="tableInfo" style=" text-align: center;width: 100%;border:1px solid #9999991e;border-collapse: collapse;
+                                        border-spacing: 0;">
+                                                    <tr style="line-height: 50px;height: 50px;  border: 1px solid #9999991e;">
+                                                    <td class="infoTd">车厢编号</td>
+                                                    <td class="infoTabel trainCarrier"></td>
+                                                    </tr>
+
+                                                    <tr style="line-height: 50px;height: 50px;  border: 1px solid #9999991e;">
+                                                    <td class="infoTd">车厢名称</td>
+                                                    <td class="infoTabel trainCarriage"></td>
+                                                    </tr>
+
+                                                    <tr style="line-height: 50px;height: 50px;  border: 1px solid #9999991e;">
+                                                    <td class="infoTd">车厢类型</td>
+                                                    <td class="infoTabel trainType"></td>
+                                                    </tr>
+
+                                                    <tr style="line-height: 50px;height: 50px;  border: 1px solid #9999991e;">
+                                                    <td class="infoTd">乘车人数</td>
+                                                    <td class="infoTabel numberOf"></td>
+                                                    </tr>
+
+                                    </table>
+                                </div>
+                                    <div class="infoLayout"
+                                     style="display: flex; position: relative; flex-wrap: wrap;box-sizing: border-box; ">
+                                    <div class="tableTitle">
+                                        详细信息
+                                    </div>
+                                    <table class="tableInfo" style=" text-align: center;width: 100%;border:1px solid #9999991e;border-collapse: collapse;
+                                        border-spacing: 0;">
+                                                <tr style="line-height: 50px;height: 50px;  border: 1px solid #9999991e;">
+                                                  <td class="infoTd">进站人数</td>
+                                                  <td class="infoTabel numberOf2"></td>
+                                                </tr>
+                                                <tr style="line-height: 50px;height: 50px;  border: 1px solid #9999991e;">
+                                                  <td class="infoTd">停留时间</td>
+                                                  <td class="infoTabel stayTime"></td>
+                                                </tr>
+                                                <tr style="line-height: 50px;height: 50px;  border: 1px solid #9999991e;">
+                                                  <td class="infoTd">出发时间</td>
+                                                  <td class="infoTabel departureTime"></td>
+                                                </tr>
+                                                <tr style="line-height: 50px;height: 50px;  border: 1px solid #9999991e;">
+                                                  <td class="infoTd">到达时间</td>
+                                                  <td class="infoTabel arrivalTime"></td>
+                                                </tr>
+                                                <tr style="line-height: 50px;height: 50px;  border: 1px solid #9999991e;">
+                                                  <td class="infoTd">状态</td>
+                                                  <td class="infoTabel state"></td>
+                                                </tr>
+                                    </table>
+                                </div>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--列表结束-->
+    </div>
+</div>
+
+<script src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/menu/metisMenu.min.js"></script>
+<script type="text/javascript" src="assets/js/menu/nanoscroller.js"></script>
+<script type="text/javascript" src="assets/js/moment.js"></script>
+<script type="text/javascript" src="assets/js/daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="assets/js/countTo/jquery.countTo.js"></script>
+<script type="text/javascript" src="assets/js/morris-js/raphael.min.js"></script>
+<script type="text/javascript" src="assets/js/morris-js/morris.min.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/excanvas.min.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/jquery.flot.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/jquery.flot.resize.js"></script>
+<script type="text/javascript" src="assets/js/flot-js/jquery.flot.time.js"></script>
+<script type="text/javascript" src="assets/js/datatables/datatables.min.js"></script>
+<script type="text/javascript" src="assets/js/vmap/jquery.vmap.js"></script>
+<script type="text/javascript" src="assets/js/vmap/maps/jquery.vmap.usa.js"></script>
+<script type="text/javascript" src="assets/js/jQuery.style.switcher.min.js"></script>
+<script type="text/javascript" src="assets/js/nav.js"></script>
+<script type="text/javascript" src="assets/js/dashboard.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        "use strict";
+        $('#theme-settings').styleSwitcher();
+    });
+</script>
+<script type="text/javascript" src="assets/js/jquery-functions.js"></script>
+<script>
+    // 主题色
+    let themeColor = "theme-red";
+
+    function dynamicLoadCss(url) {
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        link.type = 'text/css';
+        link.rel = 'stylesheet';
+        link.href = url;
+        head.appendChild(link);
+    }
+    dynamicLoadCss('assets/css/' + themeColor + '.css');
+    const trainCarDetail = JSON.parse(localStorage.getItem('trainCarDetail'))
+    document.querySelector('.trainCarrier').innerHTML = `${trainCarDetail.车厢编号}`
+    document.querySelector('.trainCarriage').innerHTML = `${trainCarDetail.车厢名称}`
+    document.querySelector('.trainType').innerHTML = `${trainCarDetail.车厢类型}`
+    document.querySelector('.numberOf').innerHTML = `${trainCarDetail.乘车人数}`
+    document.querySelector('.numberOf2').innerHTML = `${trainCarDetail.进站人数}`
+    document.querySelector('.stayTime').innerHTML = `${trainCarDetail.停留时间}`
+    document.querySelector('.departureTime').innerHTML = `${trainCarDetail.出发时间}`
+    document.querySelector('.arrivalTime').innerHTML = `${trainCarDetail.到达时间}`
+    document.querySelector('.state').innerHTML = `${trainCarDetail.状态}`
+</script>
+</body>
+
+</html>

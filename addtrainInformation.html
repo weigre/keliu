@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>换乘客流统计管理软件</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="description" content="Admin Template">
+    <meta name="author" content="Zwolek">
+    <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/morris/morris.css">>
+    <link rel="stylesheet" type="text/css" href="assets/css/nanoscroller.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/datatables/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/vmap/jqvmap.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/daterangepicker/daterangepicker.css">
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+        /* 弹窗背景 */
+        #modal {
+            width: 100%;
+            height: 100%;
+            /* 默认隐藏 */
+            /* display: none; */
+            /* 固定定位 */
+            position: fixed;
+            /* 设置在顶层 */
+            z-index: 1000;
+            /* 设置位置 */
+            left: 0;
+            top: 0;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        /* 弹窗内容 */
+        #modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: 10% auto;
+            border: 1px solid #888;
+            width: 1000px;
+            height: 580px;
+            z-index: 1001;
+        }
+        /* 关闭按钮 */
+        #close {
+            position: absolute;
+            right: 20px;
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        /* 设置关闭按钮的鼠标指针 */
+        #close:hover,
+        #close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div id="header-panel">
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+            <div id="navbar-header">
+                <a class="navbar-brand" href="index.html">
+                    <span class="logo-img">M</span>
+                    <span class="logo-text hidden-xs hidden-sm">换乘客流统计管理软件</span>
+                </a>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown user-menu">
+                        <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+                            <img style="width: 42px; height: 42px" src="https://tianyantui.oss-cn-shenzhen.aliyuncs.com/data/1688702051967.u=2479826346,1847948113&fm=253&fmt=auto&app=138&f=JPEG" alt=""
+                                 class="profile-img img-circle img-resposnive pull-left">
+                            <span class="hidden-xs">测试</span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i>Profile</a></li>
+                            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>Dashboard</a></li>
+                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>My Inbox</a> <span
+                                        class="badge">3</span></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-lock" aria-hidden="true"></i>LockScreen</a></li>
+                            <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Log out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div id="navigation-panel" class="">
+    <nav class="sidebar nano">
+        <div class="clearfix"></div>
+        <div id="#sidebar-navbar" class="sidebar-nav nano-content navbar-collapse ">
+            <ul class="nav" id="side-menu" style="height: 100%;background-color: #f0f0f0;">
+                <li class="active navActive"><a href="index.html">
+                        <i class="fa fa-wpforms" aria-hidden="true"></i>
+                        <span class="link-hide"> 首页 </span></a></li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-pagelines" aria-hidden="true"></i>
+                                <span class="link-hide"> 乘客信息</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="passengerInformation.html">乘客信息</a></li>
+                                    <li><a href="stationInformation.html">车站信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                                <span class="link-hide"> 列车信息</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="trainInformation.html">列车信息</a></li>
+                                    <li><a href="trainCar.html">车厢信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                <span class="link-hide"> 流量统计</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="trafficStatistics.html">流量统计</a></li>
+                                    <li><a href="alarmInformation.html">报警信息</a></li>
+                            </ul>
+                        </li>
+                        <li class="navActive">
+                            <a href="#" class="chevron active">
+                                <i class="fa fa-cc" aria-hidden="true"></i>
+                                <span class="link-hide"> 权限管理</span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="permissionManagement.html">权限管理</a></li>
+                                    <li><a href="dataStatistics.html">数据统计</a></li>
+                            </ul>
+                        </li>
+
+            </ul>
+        </div>
+    </nav>
+</div>
+    <!-- 主要内容 -->
+    <div id="content-panel">
+        <div class="container-fluid">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="width: 100%;">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3>添加</h3>
+                        <p class="text-muted"></p>
+                    </div>
+                    <div class="panel-body m-t-0">
+                        <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">车号</label>
+                                        <div class="col-sm-6">
+                                                    <input type="text" class="form-control vehicleNumber" placeholder="请输入车号">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">车类型</label>
+                                        <div class="col-sm-6">
+                                                    <input type="text" class="form-control typeOf" placeholder="请输入车类型">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">出发时间</label>
+                                        <div class="col-sm-6">
+                                                    <input type="date" class="form-control departureTime" placeholder="请选择出发时间">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">到达时间</label>
+                                        <div class="col-sm-6">
+                                                    <input type="date" class="form-control arrivalTime" placeholder="请选择到达时间">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">乘客人数</label>
+                                        <div class="col-sm-6">
+                                                    <input type="text" class="form-control numberOf" placeholder="请输入乘客人数">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">乘客消费金额</label>
+                                        <div class="col-sm-6">
+                                                    <input type="text" class="form-control passengerConsumption" placeholder="请输入乘客消费金额">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">乘客来源</label>
+                                        <div class="col-sm-6">
+                                                    <input type="text" class="form-control passengerSource" placeholder="请输入乘客来源">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">乘客去往目的地</label>
+                                        <div class="col-sm-6">
+                                                    <input type="text" class="form-control passengersHeading" placeholder="请输入乘客去往目的地">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">乘客状态</label>
+                                        <div class="col-sm-6">
+                                                    <input type="text" class="form-control passengerStatus" placeholder="请输入乘客状态">
+                                        </div>
+                                    </div>
+                            <div class="col-sm-offset-2 col-sm-10 no-padding">
+                                <button class="btn btn-md bg-purple submitMsg"><span>提交</span></button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="notif" style="display:block" class="body-nest">
+                        <button class="addbtn" style="display: none;" onclick="$.pnotify({
+                                title: '添加成功',
+                                text: '',
+                                type: 'success'
+
+                                });" class="btn source">成功添加</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/menu/metisMenu.min.js"></script>
+    <script type="text/javascript" src="assets/js/menu/nanoscroller.js"></script>
+    <script type="text/javascript" src="assets/js/moment.js"></script>
+    <script type="text/javascript" src="assets/js/daterangepicker/daterangepicker.js"></script>
+    <script type="text/javascript" src="assets/js/countTo/jquery.countTo.js"></script>
+    <script type="text/javascript" src="assets/js/morris-js/raphael.min.js"></script>
+    <script type="text/javascript" src="assets/js/morris-js/morris.min.js"></script>
+    <script type="text/javascript" src="assets/js/flot-js/excanvas.min.js"></script>
+    <script type="text/javascript" src="assets/js/flot-js/jquery.flot.js"></script>
+    <script type="text/javascript" src="assets/js/flot-js/jquery.flot.resize.js"></script>
+    <script type="text/javascript" src="assets/js/flot-js/jquery.flot.time.js"></script>
+    <script type="text/javascript" src="assets/js/datatables/datatables.min.js"></script>
+    <script type="text/javascript" src="assets/js/vmap/jquery.vmap.js"></script>
+    <script type="text/javascript" src="assets/js/vmap/maps/jquery.vmap.usa.js"></script>
+    <script type="text/javascript" src="assets/js/switchery/switchery.js"></script>
+    <script type="text/javascript" src="assets/js/jQuery.style.switcher.min.js"></script>
+<script type="text/javascript" src="assets/js/nav.js"></script>
+<script type="text/javascript" src="assets/js/dashboard.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            "use strict";
+            $('#theme-settings').styleSwitcher();
+        });
+    </script>
+    <script type="text/javascript" src="assets/js/jquery-functions.js"></script>
+    <script>
+        // 主题色
+        let themeColor = "theme-pink";
+
+        function dynamicLoadCss(url) {
+            var head = document.getElementsByTagName('head')[0];
+            var link = document.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.href = url;
+            head.appendChild(link);
+        }
+        dynamicLoadCss('assets/css/' + themeColor + '.css');
+        </script>
+        <script>
+        const submitMsg = document.querySelector('.submitMsg')
+        const trainInformationItemInfo = JSON.parse(localStorage.getItem('trainInformationItemInfo'))
+
+        if (trainInformationItemInfo != null) {
+            const vehicleNumber = document.querySelector('.vehicleNumber')
+                vehicleNumber.value = trainInformationItemInfo.车号
+            const typeOf = document.querySelector('.typeOf')
+                typeOf.value = trainInformationItemInfo.车类型
+            const departureTime = document.querySelector('.departureTime')
+                departureTime.value = trainInformationItemInfo.出发时间
+            const arrivalTime = document.querySelector('.arrivalTime')
+                arrivalTime.value = trainInformationItemInfo.到达时间
+            const numberOf = document.querySelector('.numberOf')
+                numberOf.value = trainInformationItemInfo.乘客人数
+            const passengerConsumption = document.querySelector('.passengerConsumption')
+                passengerConsumption.value = trainInformationItemInfo.乘客消费金额
+            const passengerSource = document.querySelector('.passengerSource')
+                passengerSource.value = trainInformationItemInfo.乘客来源
+            const passengersHeading = document.querySelector('.passengersHeading')
+                passengersHeading.value = trainInformationItemInfo.乘客去往目的地
+            const passengerStatus = document.querySelector('.passengerStatus')
+                passengerStatus.value = trainInformationItemInfo.乘客状态
+        }
+        // 图片
+        const addbtn = document.querySelector('.addbtn')
+
+        submitMsg.addEventListener('click', function () {
+                const vehicleNumber = document.querySelector('.vehicleNumber')
+                const typeOf = document.querySelector('.typeOf')
+                const departureTime = document.querySelector('.departureTime')
+                const arrivalTime = document.querySelector('.arrivalTime')
+                const numberOf = document.querySelector('.numberOf')
+                const passengerConsumption = document.querySelector('.passengerConsumption')
+                const passengerSource = document.querySelector('.passengerSource')
+                const passengersHeading = document.querySelector('.passengersHeading')
+                const passengerStatus = document.querySelector('.passengerStatus')
+                const imgUrl = 'https://ts1.cn.mm.bing.net/th/id/R-C.2a36cfa27aed2122230d6172817edc5f?rik=Hnp99nHpXSiPiw&riu=http%3a%2f%2fpic.22520.cn%2ftuku%2f200228%2f1582864482777017.jpg&ehk=mUtr3Nop0KUK8J45igo%2beaCZJ%2b2jU3CyfMiDauR3pFg%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"'
+                const id = 0
+                // 编辑赋值
+                if (trainInformationItemInfo) {
+                    const newArr =  [...JSON.parse(localStorage.getItem('trainInformation'))]
+                    newArr.forEach(item => {
+                        if (item.id == trainInformationItemInfo.id) {
+                                    item.车号 = vehicleNumber.value
+                                    ,
+                                    item.车类型 = typeOf.value
+                                    ,
+                                    item.出发时间 = departureTime.value
+                                    ,
+                                    item.到达时间 = arrivalTime.value
+                                    ,
+                                    item.乘客人数 = numberOf.value
+                                    ,
+                                    item.乘客消费金额 = passengerConsumption.value
+                                    ,
+                                    item.乘客来源 = passengerSource.value
+                                    ,
+                                    item.乘客去往目的地 = passengersHeading.value
+                                    ,
+                                    item.乘客状态 = passengerStatus.value
+                                    
+                        }
+                    });
+                    localStorage.setItem('trainInformation', JSON.stringify(newArr))
+                }
+                // 否则就是新增
+                else {
+                    if(localStorage.getItem('trainInformation')){
+                        var newArr = [...JSON.parse(localStorage.getItem('trainInformation'))];
+                    }else{
+                        var newArr = [];
+                    }
+                    newArr.unshift({
+                        "id": newArr.length == 0 ? 1:newArr[0].id+1,
+                        "车号" : vehicleNumber.value,
+                        "车类型" : typeOf.value,
+                        "出发时间" : departureTime.value,
+                        "到达时间" : arrivalTime.value,
+                        "乘客人数" : numberOf.value,
+                        "乘客消费金额" : passengerConsumption.value,
+                        "乘客来源" : passengerSource.value,
+                        "乘客去往目的地" : passengersHeading.value,
+                        "乘客状态" : passengerStatus.value,
+                    })
+                    localStorage.setItem('trainInformation', JSON.stringify(newArr))
+                    addbtn.click()
+                }
+                setInterval(function () {
+                    location.href='trainInformation.html'
+                    localStorage.removeItem('trainInformationItemInfo')
+                },1000)
+            }
+        )
+
+    </script>
+</body>
+
+</html>
